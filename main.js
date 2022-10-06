@@ -1,33 +1,33 @@
-let movieList = document.querySelector(".movie-list");
-let movieBtn = document.querySelector(".js-card-modal-btn");
+const movieList = document.querySelector(".movie-list");
+const movieBtn = document.querySelector(".js-card-modal-btn");
 
 let movieFragment = document.createDocumentFragment();
 let movieTemplate = document.querySelector(".movie-template").content;
 
-let siteBody = document.querySelector(".site-body");
-let mainModalBox = document.querySelector(".main-modal-box");
-let modalTitle = document.querySelector(".js-modal-title");
-let modalIframe = document.querySelector(".modal-iframe");
-let modalRating = document.querySelector(".movie-modal-rating");
-let modalCalendar = document.querySelector(".movie-modal-calendar");
-let modalDuration = document.querySelector(".movie-modal-duration");
-let modalGenres = document.querySelector(".js-film-modal-genres");
-let modalSummary = document.querySelector(".js-card-summary");
-let modalLinkImdb = document.querySelector(".link-show-imdb");
-let modalCloseBtn = document.querySelector(".js-card-close-btn");
+const siteBody = document.querySelector(".site-body");
+const mainModalBox = document.querySelector(".main-modal-box");
+const mainModal = document.querySelector(".main-modal");
+const modalTitle = document.querySelector(".js-modal-title");
+const modalIframe = document.querySelector(".modal-iframe");
+const modalRating = document.querySelector(".movie-modal-rating");
+const modalCalendar = document.querySelector(".movie-modal-calendar");
+const modalDuration = document.querySelector(".movie-modal-duration");
+const modalGenres = document.querySelector(".js-film-modal-genres");
+const modalSummary = document.querySelector(".js-card-summary");
+const modalLinkImdb = document.querySelector(".link-show-imdb");
+const modalCloseBtn = document.querySelector(".js-card-close-btn");
 
-let movieHundred = movies.splice(0, 101);
+let movieHundred = movies.slice(0, 101);
 
 // ! Converts from mins to hour
 const convertMinsToHrsMins = (mins) => {
   let h = Math.floor(mins / 60);
   let m = mins % 60;
-  h = h < 10 ? "" + h : h;
-  m = m < 10 ? "" + m : m;
   return `${h} hr ${m} min`;
 };
 
 movieHundred.forEach((movie) => {
+  movieList.innerHTML = "";
   let cloneMovieTemplate = movieTemplate.cloneNode(true);
 
   cloneMovieTemplate.querySelector(".movie-item").dataset.itemId =
@@ -43,7 +43,7 @@ movieHundred.forEach((movie) => {
   cloneMovieTemplate.querySelector(".movie-calendar").textContent =
     movie.movie_year;
   cloneMovieTemplate.querySelector(".js-film-genres").textContent =
-    movie.Categories;
+    movie.Categories.split("|").join(", ");
   cloneMovieTemplate.querySelector(".movie-duration").textContent =
     convertMinsToHrsMins(movie.runtime);
   cloneMovieTemplate.querySelector(".js-card-modal-btn").dataset.btnModalId =
@@ -62,13 +62,13 @@ function showModal(imdbID) {
   modalRating.textContent = kino.imdb_rating;
   modalCalendar.textContent = kino.movie_year;
   modalDuration.textContent = convertMinsToHrsMins(kino.runtime);
-  modalGenres.textContent = kino.Categories;
+  modalGenres.textContent = kino.Categories.split("|").join(", ");
   modalSummary.textContent = kino.summary;
   modalLinkImdb.href = `https://www.imdb.com/title/${kino.imdb_id}`;
 }
 movieList.addEventListener("click", function (evt) {
   if (evt.target.matches(".js-card-modal-btn")) {
-    mainModalBox.classList.add("main-modal-box--on");
+    mainModal.classList.add("main-modal--on");
     siteBody.classList.add("site-body--on");
     showModal(evt.target.dataset.btnModalId);
     movieBtn.classList.add("d-none");
@@ -79,5 +79,11 @@ movieList.appendChild(movieFragment);
 
 modalCloseBtn.addEventListener("click", () => {
   siteBody.classList.remove("site-body--on");
-  mainModalBox.classList.remove("main-modal-box--on");
+  mainModal.classList.remove("main-modal--on");
+  modalIframe.src = ``;
 });
+
+// siteBody.addEventListener("click", () => {
+//   siteBody.classList.remove("site-body--on");
+//   mainModal.classList.remove("main-modal--on");
+// });

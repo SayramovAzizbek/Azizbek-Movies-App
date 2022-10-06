@@ -24,7 +24,9 @@
         <section id="movie">
             <div class="container">
                 <div class="movie-box">
-                    <ul class="movie-list row list-unstyled"></ul>
+                    <ul class="movie-list row list-unstyled">
+                        <img src="./images/movie-loading.svg" width="200" height="200" alt="">
+                    </ul>
                 </div>
             </div>
         </section>
@@ -54,32 +56,34 @@
         </template>
 
         <!-- Item Modal -->
-        <div class="main-modal-box">
-            <div class="movie-modal-card">
-                <div class="movie-modal-video-info">
-                    <h3 class="js-modal-title"></h3>
-                    <iframe class="modal-iframe" width="372" height="215" src="" title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-                </div>
-                <div class="js-modal-body">
-                    <div class="js-card-icons-box">
-                        <div class="card-rating-calendar-box">
-                            <span class="movie-modal-rating"></span>
-                            <span class="movie-modal-calendar"></span>
+        <div class="main-modal">
+            <div class="main-modal-box">
+                <div class="movie-modal-card">
+                    <div class="movie-modal-video-info">
+                        <h3 class="js-modal-title"></h3>
+                        <iframe class="modal-iframe" width="372" height="215" src="" title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="js-modal-body">
+                        <div class="js-card-icons-box">
+                            <div class="card-rating-calendar-box">
+                                <span class="movie-modal-rating"></span>
+                                <span class="movie-modal-calendar"></span>
+                            </div>
+                            <span class="movie-modal-duration"></span>
                         </div>
-                        <span class="movie-modal-duration"></span>
-                    </div>
-                    <p class="js-film-modal-genres"></p>
-                    <div class="card-modal-summary-box">
-                        <p class="js-card-summary"></p>
-                    </div>
-                    <a class="js-card-imdb-btn link-show-imdb" href="" target="blank">Show
-                        on
-                        IMDb</a>
-                    <div class="modal-close-box">
-                        <button class="card-close-btn js-card-close-btn" type="button">Close</button>
+                        <p class="js-film-modal-genres"></p>
+                        <div class="card-modal-summary-box">
+                            <p class="js-card-summary"></p>
+                        </div>
+                        <a class="js-card-imdb-btn link-show-imdb" href="" target="blank">Show
+                            on
+                            IMDb</a>
+                        <div class="modal-close-box">
+                            <button class="card-close-btn js-card-close-btn" type="button">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
