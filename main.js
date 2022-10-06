@@ -82,8 +82,3 @@ modalCloseBtn.addEventListener("click", () => {
   mainModal.classList.remove("main-modal--on");
   modalIframe.src = ``;
 });
-
-// siteBody.addEventListener("click", () => {
-//   siteBody.classList.remove("site-body--on");
-//   mainModal.classList.remove("main-modal--on");
-// });
