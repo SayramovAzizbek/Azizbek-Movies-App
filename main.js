@@ -1,3 +1,6 @@
+const searchMovieForm = document.querySelector(".search-form");
+const searchMovieInput = document.querySelector(".search-input");
+
 const movieList = document.querySelector(".movie-list");
 const movieBtn = document.querySelector(".js-card-modal-btn");
 
@@ -26,6 +29,28 @@ const convertMinsToHrsMins = (mins) => {
   return `${h} hr ${m} min`;
 };
 
+// searchMovieForm.addEventListener("keyup", function (evt) {
+//   evt.preventDefault();
+//   let searchInput = searchMovieInput.value.toLowerCase();
+//   let searchItem = movieHundred.filter((item) => {
+//     return console.log(item.Title.toLowerCase().includes(searchInput));
+//   });
+//   showModal(searchItem);
+// });
+
+searchMovieForm.addEventListener("keyup", function (evt) {
+  const term = evt.target.value.toLowerCase();
+  const films = movieList.getElementsByTagName("li");
+  Array.from(films).forEach(function (film) {
+    const title = film.firstElementChild.textContent;
+    if (title.toLowerCase().indexOf(term) != -1) {
+      film.style.display = "block";
+    } else {
+      film.style.display = "none";
+    }
+  });
+});
+
 movieHundred.forEach((movie) => {
   movieList.innerHTML = "";
   let cloneMovieTemplate = movieTemplate.cloneNode(true);
@@ -51,6 +76,7 @@ movieHundred.forEach((movie) => {
 
   movieFragment.appendChild(cloneMovieTemplate);
 });
+movieList.appendChild(movieFragment);
 
 // ! Modal part code
 function showModal(imdbID) {
@@ -66,6 +92,7 @@ function showModal(imdbID) {
   modalSummary.textContent = kino.summary;
   modalLinkImdb.href = `https://www.imdb.com/title/${kino.imdb_id}`;
 }
+
 movieList.addEventListener("click", function (evt) {
   if (evt.target.matches(".js-card-modal-btn")) {
     mainModal.classList.add("main-modal--on");
@@ -74,8 +101,6 @@ movieList.addEventListener("click", function (evt) {
     movieBtn.classList.add("d-none");
   }
 });
-
-movieList.appendChild(movieFragment);
 
 modalCloseBtn.addEventListener("click", () => {
   siteBody.classList.remove("site-body--on");

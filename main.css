@@ -19,6 +19,44 @@ body {
     border-radius: 50px;
 }
 
+#search {
+    padding: 30px 0;
+    background-color: #AD0C17;
+    margin-bottom: 100px;
+}
+
+/* ? This also version to design for form */
+/* .search-box {
+    background-color: #AD0C17;
+    border-radius: 20px;
+    padding: 30px 0;
+} */
+
+.search-form {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.search-btn {
+    margin-left: 20px;
+    padding: 5px 20px;
+    font-weight: 700;
+    color: #e03737;
+    transition: all 0.5s ease 0s;
+    background-color: #ffff59;
+    border: none;
+    border-radius: 10px;
+}
+
 .main-top-img-box {
     width: 100%;
     max-width: 900px;
@@ -138,9 +176,7 @@ body {
 .js-card-modal-btn {
     padding: 5px 20px;
     font-weight: 700;
-    /* color: #c04141; */
     color: #e03737;
-    /* background-color: #e2e268; */
     background-color: #ffff59;
     border-radius: 10px;
     transition: all .5s;
