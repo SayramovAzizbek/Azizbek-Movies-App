@@ -13,26 +13,63 @@
 
 <body class="site-body">
     <main>
-        <section id="site-img-box">
-            <div class="container">
-                <div class="main-top-img-box">
-                    <img class="main-top-img" src="./images/./movies-stamp-1-png.png" width="900" height="300" alt="">
-                </div>
-            </div>
-        </section>
-
         <section id="search">
             <div class="container">
                 <div class="search-box">
                     <form class="search-form">
-                        <input class="search-input" type="search" aria-label="Search your Movies"
-                            placeholder="Search your Movies">
-                        <button class="search-btn" type="submit">Search</button>
+                        <div class="search-item-box">
+                            <input class="search-input" type="search" aria-label="Search your Movies"
+                                placeholder="Search your Movies">
+                            <button class="search-btn" type="submit">Search</button>
+                        </div>
+                        <div class="sort-element-box">
+                            <div class="sorting-item-letter">
+                                <button class="sorting-start-end sort-letter-btn" type="button">A < Z</button>
+                                        <button class="sorting-end-start sort-letter-btn" type="button">Z < A</button>
+                                                <a class="sort-all sort-letter-btn" href="./index.html">All</a>
+                                                <!-- <button class="reverse-all-sorted sort-letter-btn" type="button">All</button> -->
+                            </div>
+                            <div class="sorting-item-rating">
+                                <button class="sort-year-start-end sort-rating-btn" type="button">1 < 10</button>
+                                        <button class="sort-year-end-start sort-rating-btn" type="button">10 <
+                                                1</button>
+                            </div>
+                            <div class="sorting-item-year">
+                                <input class="sort-start-year sort-year-input" type="number" placeholder="From">
+                                <input class="sort-end-year sort-year-input" type="number" placeholder="To">
+                                <button class="sort-year-btn" type="button">Search</button>
+                            </div>
+                            <div class="sorting-item-category">
+                                <select class="movie-category-select" name="movie-category">
+                                    <!-- <option selected disabled>Choose movie by category</option> -->
+                                    <option value="All">All</option>
+                                </select>
+                                <button class="sort-category-btn" type="button">Search</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
         </section>
-        
+
+        <section id="site-img-box">
+            <div class="container">
+                <div class="main-top-img-box">
+                    <a href="./index.html"><img class="main-top-img" src="./images/./movies-stamp-1-png.png" width="900"
+                            height="300" alt=""></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="not-found-item">
+            <div class="container">
+                <div class="not-found-films d-none">
+                    <p class="not-found-films-text">Sorry film you wanted is not defined :(</p>
+                    <button class="not-found-btn" type="button">Ok</button>
+                </div>
+            </div>
+        </section>
+
         <section id="movie">
             <div class="container">
                 <div class="movie-box">
