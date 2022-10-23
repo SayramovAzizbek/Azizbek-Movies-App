@@ -1,16 +1,9 @@
 const searchMovieForm = document.querySelector(".search-form");
 const searchMovieInput = document.querySelector(".search-input");
 
-const letterStartToEnd = document.querySelector(".sorting-start-end");
-const letterEndToStart = document.querySelector(".sorting-end-start");
-const reverseAllSorted = document.querySelector(".reverse-all-sorted");
-
 const yearStartInput = document.querySelector(".sort-start-year");
 const yearEndInput = document.querySelector(".sort-end-year");
 const yearSortBtn = document.querySelector(".sort-year-btn");
-
-const ratingStartToEndBtn = document.querySelector(".sort-year-start-end");
-const ratingEndToStartBtn = document.querySelector(".sort-year-end-start");
 
 const ratingCategorySelect = document.querySelector(".movie-category-select");
 const categorySortBtn = document.querySelector(".sort-category-btn");
@@ -20,6 +13,12 @@ const movieBtn = document.querySelector(".js-card-modal-btn");
 
 const notFoundFilmsList = document.querySelector(".not-found-films");
 const notFoundBtn = document.querySelector(".not-found-btn");
+
+const elSortMovies = document.querySelector(".js-sort-select");
+
+const savedMovieList = document.querySelector(".saved-movie-list");
+
+const savedBtn = document.querySelector(".open-saved-btn");
 
 let movieTemplate = document.querySelector(".movie-template").content;
 
@@ -45,8 +44,8 @@ const convertMinsToHrsMins = (mins) => {
   return `${h} hr ${m} min`;
 };
 
-// ! Main info 
-function movieRender(movie) {
+// ! Main info
+function movieRender(movie, titleRegex = "") {
   movieList.innerHTML = "";
 
   let movieFragment = document.createDocumentFragment();
@@ -59,7 +58,19 @@ function movieRender(movie) {
     cloneMovieTemplate.querySelector(
       ".js-card-img"
     ).src = `http://i3.ytimg.com/vi/${kino.ytid}/mqdefault.jpg`;
-    cloneMovieTemplate.querySelector(".js-card-title").textContent = kino.Title;
+
+    // ! Selection by input, selects typed search
+    if (titleRegex.source !== "(?:)" && titleRegex) {
+      cloneMovieTemplate.querySelector(".js-card-title").innerHTML =
+        kino.Title.replace(
+          titleRegex,
+          `<mark class="p-0 bg-warning">${titleRegex.source}</mark>`
+        );
+    } else {
+      cloneMovieTemplate.querySelector(".js-card-title").textContent =
+        kino.Title;
+    }
+
     cloneMovieTemplate.querySelector(".card-title-tooltip").textContent =
       kino.Title;
     cloneMovieTemplate.querySelector(".movie-rating").textContent =
@@ -73,10 +84,119 @@ function movieRender(movie) {
     cloneMovieTemplate.querySelector(".js-card-modal-btn").dataset.btnModalId =
       kino.imdb_id;
 
+    cloneMovieTemplate.querySelector(".movie-save-btn").dataset.bookmarkBtnId =
+      kino.imdb_id;
+
     movieFragment.appendChild(cloneMovieTemplate);
   }
   movieList.appendChild(movieFragment);
 }
+
+let bookmarkArr = JSON.parse(window.localStorage.getItem("bookmark")) || [];
+
+// ! Add Saved List, chosen cards
+movieList.addEventListener("click", (evt) => {
+  if (evt.target.matches(".movie-save-btn")) {
+    let itemBookmarkID = evt.target.dataset.bookmarkBtnId;
+
+    let itemBook = movieHundred.find((item) => item.imdb_id == itemBookmarkID);
+
+    if (!bookmarkArr.includes(itemBook)) {
+      bookmarkArr.unshift(itemBook);
+    }
+    evt.target.classList.toggle("movie-save-btn--saved");
+    window.localStorage.setItem("bookmark", JSON.stringify(bookmarkArr));
+  }
+});
+
+// ! Saved btn
+savedBtn.addEventListener("click", () => {
+  savedMovies();
+});
+
+// ! Create element in saved list, and appenchild to saved list
+const savedItemFragment = new DocumentFragment();
+function savedMovies() {
+  savedMovieList.innerHTML = "";
+  bookmarkArr.forEach((item) => {
+    let savedItem = document.createElement("li");
+    savedItem.classList.add("saved-movie-item");
+
+    let savedItemImg = document.createElement("img");
+
+    let savedItemTextBox = document.createElement("div");
+    savedItemTextBox.classList.add("saved-item-text-box");
+
+    let savedItemMainTextBox = document.createElement("div");
+    savedItemMainTextBox.classList.add("saved-item-main-text-box");
+
+    let savedItemTitle = document.createElement("p");
+    savedItemTitle.classList.add("saved-item-title");
+
+    let savedItemTitleBox = document.createElement("div");
+    savedItemTitleBox.classList.add("saved-item-title-box");
+
+    let savedItemInfoBox = document.createElement("div");
+    savedItemInfoBox.classList.add("saved-item-info-box");
+
+    let savedItemYear = document.createElement("span");
+    savedItemYear.textContent = item.movie_year;
+    savedItemYear.classList.add("saved-item-year");
+
+    let savedItemRating = document.createElement("span");
+    savedItemRating.textContent = item.imdb_rating;
+    savedItemRating.classList.add("saved-item-rating");
+
+    let savedItemHours = document.createElement("span");
+    savedItemHours.textContent = convertMinsToHrsMins(item.runtime);
+    savedItemHours.classList.add("saved-item-hours");
+
+    let savedMovieInfoTextBox = document.createElement("div");
+    savedMovieInfoTextBox.classList.add("saved-movie-info-text-box");
+
+    let savedItemDeleteBtn = document.createElement("button");
+    savedItemDeleteBtn.classList.add("saved-item-delete-btn");
+    savedItemDeleteBtn.type = "button";
+    savedItemDeleteBtn.dataset.deleteBtnId = item.imdb_id;
+    savedItemDeleteBtn.textContent = "";
+
+    savedItemTitle.textContent = item.Title;
+    savedItemImg.src = `http://i3.ytimg.com/vi/${item.ytid}/mqdefault.jpg`;
+
+    savedItemTitleBox.appendChild(savedItemTitle);
+    savedItemTextBox.appendChild(savedItemTitleBox);
+
+    savedItemTextBox.appendChild(savedItemDeleteBtn);
+
+    savedItem.appendChild(savedItemImg);
+
+    savedItemInfoBox.appendChild(savedItemRating);
+    savedItemInfoBox.appendChild(savedItemYear);
+
+    savedMovieInfoTextBox.appendChild(savedItemInfoBox);
+    savedMovieInfoTextBox.appendChild(savedItemHours);
+
+    savedItemMainTextBox.appendChild(savedMovieInfoTextBox);
+    savedItemMainTextBox.appendChild(savedItemTextBox);
+
+    savedItem.appendChild(savedItemMainTextBox);
+    savedItemFragment.appendChild(savedItem);
+  });
+  savedMovieList.appendChild(savedItemFragment);
+}
+
+// ! Delete saved item in saved list
+savedMovieList.addEventListener("click", (evt) => {
+  if (evt.target.matches(".saved-item-delete-btn")) {
+    let deleteBtnId = evt.target.dataset.deleteBtnId;
+    let deleteFindBtn = bookmarkArr.findIndex(
+      (item) => item.imdb_id == deleteBtnId
+    );
+    bookmarkArr.splice(deleteFindBtn, 1);
+    window.localStorage.setItem("bookmark", JSON.stringify(bookmarkArr));
+    savedMovies();
+  }
+});
 
 // ! Modal part
 function showModal(imdbID) {
@@ -93,7 +213,7 @@ function showModal(imdbID) {
   modalLinkImdb.href = `https://www.imdb.com/title/${kino.imdb_id}`;
 }
 
-// ! Opem Modal
+// ! Open Modal
 movieList.addEventListener("click", function (evt) {
   if (evt.target.matches(".js-card-modal-btn")) {
     mainModal.classList.add("main-modal--on");
@@ -119,8 +239,11 @@ function onSearchMovieSubmit(evt) {
   const searchMovieFilteredList = movieHundred.filter((item) =>
     item.Title.match(searchElement)
   );
+  movieRender(searchMovieFilteredList, searchElement);
   if (searchMovieFilteredList.length > 0) {
-    movieRender(searchMovieFilteredList);
+    sortMovieCategory(searchMovieFilteredList);
+    sortMoviesList(searchMovieFilteredList, elSortMovies.value);
+    movieRender(searchMovieFilteredList, searchElement);
   } else {
     notFoundFilmsList.classList.remove("d-none");
     movieList.classList.add("d-none");
@@ -137,31 +260,7 @@ notFoundBtn.addEventListener("click", () => {
   movieRender(movieHundred);
 });
 
-// ! Sort movies start to end by name
-letterStartToEnd.addEventListener("click", () => {
-  const sortStartToEnd = movieHundred.sort((a, b) => {
-    if (a.Title > b.Title) {
-      return 1;
-    } else if (a.Title < b.Title) {
-      return -1;
-    } else 0;
-  });
-  movieRender(sortStartToEnd);
-});
-
-// ! Sort movies end to start by name
-letterEndToStart.addEventListener("click", () => {
-  const sortEndToStart = movieHundred.sort((a, b) => {
-    if (a.Title > b.Title) {
-      return -1;
-    } else if (a.Title < b.Title) {
-      return 1;
-    } else 0;
-  });
-  movieRender(sortEndToStart);
-});
-
-// ! Sort movie by year
+// ? Now this click doesn't work,
 yearSortBtn.addEventListener("click", () => {
   const yearStartInputValue = yearStartInput.value.trim();
   const yearEndInputValue = yearEndInput.value.trim();
@@ -177,43 +276,24 @@ yearSortBtn.addEventListener("click", () => {
   movieRender(sortedYearMovies);
 });
 
-// ! Sort movie start to end by rating
-ratingStartToEndBtn.addEventListener("click", () => {
-  const sortStartToEndRating = movieHundred.sort((a, b) => {
-    if (a.imdb_rating > b.imdb_rating) {
-      return 1;
-    } else if (a.imdb_rating < b.imdb_rating) {
-      return -1;
-    } else 0;
-  });
-  movieRender(sortStartToEndRating);
-});
-
-// ! Sort movie end to start by rating
-ratingEndToStartBtn.addEventListener("click", () => {
-  const sortEndToStartRating = movieHundred.sort((a, b) => {
-    if (a.imdb_rating > b.imdb_rating) {
-      return -1;
-    } else if (a.imdb_rating < b.imdb_rating) {
-      return 1;
-    } else 0;
-  });
-  movieRender(sortEndToStartRating);
-});
-
 // ! Filter by Category name
+
 const genres = [];
-movies.forEach((film) => {
-  const genresMovie = film.Categories.split("|");
+function sortMovieCategory(categorySorted) {
+  movies.forEach((film) => {
+    const genresMovie = film.Categories.split("|");
 
-  genresMovie.forEach((category) => {
-    if (!genres.includes(category)) {
-      genres.push(category);
-    }
+    genresMovie.forEach((category) => {
+      if (!genres.includes(category)) {
+        genres.push(category);
+      }
+    });
   });
-});
-genres.sort();
+  genres.sort();
+}
+sortMovieCategory();
 
+// ! Select sorting by Categories
 const newSelectFragment = document.createDocumentFragment();
 genres.forEach((option) => {
   const newMoviesOption = document.createElement("option");
@@ -231,3 +311,20 @@ categorySortBtn.addEventListener("click", () => {
   });
   movieRender(categoryResult);
 });
+
+// ! Sort by Select's options
+function sortMoviesList(sortedArray, sortType) {
+  if (sortType == "a-z") {
+    sortedArray.sort((a, b) => a.Title.charCodeAt(0) - b.Title.charCodeAt(0));
+  } else if (sortType === "z-a") {
+    sortedArray.sort((a, b) => b.Title.charCodeAt(0) - a.Title.charCodeAt(0));
+  } else if (sortType === "tohigh") {
+    sortedArray.sort((a, b) => a.imdb_rating - b.imdb_rating);
+  } else if (sortType === "tolow") {
+    sortedArray.sort((a, b) => b.imdb_rating - a.imdb_rating);
+  } else if (sortType === "year-old") {
+    sortedArray.sort((a, b) => a.movie_year - b.movie_year);
+  } else if (sortType === "year-new") {
+    sortedArray.sort((a, b) => b.movie_year - a.movie_year);
+  }
+}

@@ -20,33 +20,52 @@
                         <div class="search-item-box">
                             <input class="search-input" type="search" aria-label="Search your Movies"
                                 placeholder="Search your Movies">
-                            <button class="search-btn" type="submit">Search</button>
                         </div>
                         <div class="sort-element-box">
-                            <div class="sorting-item-letter">
-                                <button class="sorting-start-end sort-letter-btn" type="button">A < Z</button>
-                                        <button class="sorting-end-start sort-letter-btn" type="button">Z < A</button>
-                                                <a class="sort-all sort-letter-btn" href="./index.html">All</a>
-                                                <!-- <button class="reverse-all-sorted sort-letter-btn" type="button">All</button> -->
-                            </div>
-                            <div class="sorting-item-rating">
-                                <button class="sort-year-start-end sort-rating-btn" type="button">1 < 10</button>
-                                        <button class="sort-year-end-start sort-rating-btn" type="button">10 <
-                                                1</button>
+                            <div class="sort-by-select">
+                                <select class="sort-movie-select js-sort-select" name="sort-movie">
+                                    <option value="all">All</option>
+                                    <option value="a-z">Sort by A-Z</option>
+                                    <option value="z-a">Sort by Z-A</option>
+                                    <option value="tohigh">Sort Rating by 1-10</option>
+                                    <option value="tolow">Sort Rating by 10-1</option>
+                                    <option value="year-old">Sort Year by old-new</option>
+                                    <option value="year-new">Sort Year by new-old</option>
+                                </select>
                             </div>
                             <div class="sorting-item-year">
                                 <input class="sort-start-year sort-year-input" type="number" placeholder="From">
                                 <input class="sort-end-year sort-year-input" type="number" placeholder="To">
-                                <button class="sort-year-btn" type="button">Search</button>
+                                <button class="sort-year-btn" type="button">Search by year</button>
                             </div>
                             <div class="sorting-item-category">
                                 <select class="movie-category-select" name="movie-category">
-                                    <!-- <option selected disabled>Choose movie by category</option> -->
                                     <option value="All">All</option>
                                 </select>
-                                <button class="sort-category-btn" type="button">Search</button>
+                                <button class="sort-category-btn" type="button">Categories</button>
+                            </div>
+                            <div class="saved-movies-box">
+                                <button class="btn open-saved-btn" type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                                </button>
+
+                                <div class="offcanvas offcanvas-end saved-list-box" tabindex="-1" id="offcanvasExample"
+                                    aria-labelledby="offcanvasExampleLabel">
+                                    <div class="offcanvas-header">
+                                        <h5 class="offcanvas-title saved-box-title" id="offcanvasExampleLabel">Saved
+                                            Movies
+                                        </h5>
+                                        <button type="button" class="saved-box-close-btn" data-bs-dismiss="offcanvas"
+                                            aria-label="Close">Close</button>
+                                    </div>
+                                    <div class="offcanvas-body">
+                                        <ul class="saved-movie-list"></ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <button class="search-btn" type="submit">Search</button>
+
                     </form>
                 </div>
             </div>
@@ -97,8 +116,11 @@
                             <span class="movie-duration"></span>
                         </div>
                         <p class="film-genres js-film-genres"></p>
-                        <button class="card-modal-btn js-card-modal-btn" type="button">More
-                            info</button>
+                        <div class="card-movie-btn-box">
+                            <button class="card-modal-btn js-card-modal-btn" type="button">More
+                                info</button>
+                            <button class="movie-save-btn" type="button"></button>
+                        </div>
                     </div>
                 </div>
             </li>

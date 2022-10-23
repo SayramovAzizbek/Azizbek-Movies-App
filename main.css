@@ -34,8 +34,7 @@ body {
 
 .search-form,
 .search-item-box,
-.sort-element-box,
-.sorting-item-letter {
+.sort-element-box {
     display: flex;
     align-items: center;
 }
@@ -43,7 +42,7 @@ body {
 .sort-element-box {
     justify-content: space-evenly;
     width: 100%;
-    margin-top: 30px;
+    margin: 30px 0;
 }
 
 .search-form {
@@ -65,9 +64,8 @@ body {
 .search-btn,
 .not-found-btn,
 .sort-year-btn,
-.sort-letter-btn,
-.sort-rating-btn,
-.sort-category-btn {
+.sort-category-btn,
+.saved-box-close-btn {
     margin-left: 20px;
     padding: 10px 30px;
     font-weight: 700;
@@ -76,29 +74,6 @@ body {
     border: none;
     border-radius: 10px;
     transition: all 0.5s ease 0s;
-}
-
-.sort-letter-btn {
-    padding: 10px;
-}
-
-.sort-letter-btn:hover {
-    color: #ff0000;
-}
-
-.sort-letter-btn:nth-child(1) {
-    margin-left: 0;
-}
-
-.sort-letter-btn:nth-child(2) {
-    margin: 0 10px;
-}
-
-.sort-all {
-    display: inline-block;
-    margin-left: 00px;
-    padding: 10px 20px;
-    text-decoration: none;
 }
 
 .not-found-films {
@@ -129,7 +104,7 @@ body {
 }
 
 .sort-year-input {
-    width: 80px;
+    width: 90px;
     padding: 5px 10px;
     font-weight: 700;
     border-radius: 10px;
@@ -144,27 +119,13 @@ body {
     padding: 5px 10px;
 }
 
-.sorting-item-rating,
-.sort-rating-btn {
-    display: flex;
-    align-items: center;
-}
-
-.sort-rating-btn:first-child {
+.saved-box-close-btn {
     margin-left: 0;
+    padding: 5px 10px;
 }
 
-.sorting-item-rating .sort-rating-btn::after {
-    width: 15px;
-    height: 15px;
-    margin-left: 5px;
-    background-image: url("./images/star-icon-red.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    content: "";
-}
-
-.movie-category-select {
+.movie-category-select,
+.sort-movie-select {
     padding: 10px 40px 10px 20px;
     font-weight: 700;
     color: #5d6880;
@@ -176,7 +137,8 @@ body {
     appearance: none;
 }
 
-.movie-category-select option {
+.movie-category-select option,
+.sort-movie-select option {
     font-weight: 700;
     color: #ffff59;
     background-color: #221f1f;
@@ -195,9 +157,12 @@ body {
     border-radius: 50px;
 }
 
-.sort-category-btn{
-    margin-left: 5px;
-    padding: 10px 20px;
+.open-saved-btn {
+    width: 45px;
+    height: 45px;
+    background-repeat: no-repeat;
+    background-image: url("./images/bookmark-saved.svg");
+    background-size: cover;
 }
 
 .main-top-img-box {
@@ -274,7 +239,10 @@ body {
 .movie-duration,
 .movie-modal-rating,
 .movie-modal-calendar,
-.movie-modal-duration {
+.movie-modal-duration,
+.saved-item-year,
+.saved-item-rating,
+.saved-item-hours {
     display: flex;
     align-items: center;
     color: #fff;
@@ -285,7 +253,10 @@ body {
 .movie-duration::before,
 .movie-modal-rating::before,
 .movie-modal-calendar::before,
-.movie-modal-duration::before {
+.movie-modal-duration::before,
+.saved-item-year::before,
+.saved-item-rating::before,
+.saved-item-hours::before {
     width: 15px;
     height: 15px;
     margin-right: 8px;
@@ -296,23 +267,32 @@ body {
 }
 
 .movie-calendar::before,
-.movie-modal-calendar::before {
+.movie-modal-calendar::before,
+.saved-item-year::before {
     background-image: url("../images/calendar-icon.png");
 }
 
 .movie-duration::before,
-.movie-modal-duration::before {
+.movie-modal-duration::before,
+.saved-item-hours::before {
     margin-right: 5px;
     background-image: url("../images/clock-icon.png");
 }
 
-.movie-calendar {
+.movie-calendar,
+.saved-item-year {
     margin-left: 30px;
 }
 
 .js-film-genres {
     font-size: 15px;
     color: #dcff41;
+}
+
+.card-movie-btn-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .js-card-modal-btn {
@@ -329,6 +309,98 @@ body {
 .js-card-modal-btn:active {
     background-color: #ffff06;
     color: #ff0000;
+}
+
+.saved-list-box {
+    background-color: #221F1F;
+}
+
+.saved-box-title {
+    font-size: 20px;
+    color: #dcff41;
+    font-weight: 700;
+}
+
+.saved-box-close-btn:hover,
+.saved-box-close-btn:active {
+    color: #e03737;
+    background-color: #ffff59;
+}
+
+.saved-movie-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.saved-movie-item {
+    margin-bottom: 20px;
+    background-color: #831119;
+}
+
+.saved-movie-item img {
+    width: 100%;
+}
+
+.saved-movie-info-text-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.saved-item-info-box {
+    display: flex;
+    align-items: center;
+}
+
+.movie-save-btn {
+    width: 25px;
+    height: 25px;
+    background-image: url("./images/bookmark-white.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+}
+
+.movie-save-btn--saved {
+    background-image: url("./images/bookmark-saved.svg");
+}
+
+.saved-item-text-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.saved-item-main-text-box {
+    padding: 15px 15px 20px 15px;
+}
+
+.saved-item-title-box {
+    max-width: 280px;
+}
+
+.saved-item-title {
+    margin: 0;
+    font-size: 18px;
+    color: #dcff41;
+    font-weight: 700;
+}
+
+.saved-item-delete-btn {
+    width: 25px;
+    height: 25px;
+    background-image: url("./images/delete-icon.svg");
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+}
+
+.saved-item-year {
+    color: #fff;
 }
 
 .main-modal {
