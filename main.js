@@ -1,23 +1,16 @@
 const searchMovieForm = document.querySelector(".search-form");
 const searchMovieInput = document.querySelector(".search-input");
-
 const yearStartInput = document.querySelector(".sort-start-year");
 const yearEndInput = document.querySelector(".sort-end-year");
 const yearSortBtn = document.querySelector(".sort-year-btn");
-
 const ratingCategorySelect = document.querySelector(".movie-category-select");
 const categorySortBtn = document.querySelector(".sort-category-btn");
-
 const movieList = document.querySelector(".movie-list");
 const movieBtn = document.querySelector(".js-card-modal-btn");
-
 const notFoundFilmsList = document.querySelector(".not-found-films");
 const notFoundBtn = document.querySelector(".not-found-btn");
-
 const elSortMovies = document.querySelector(".js-sort-select");
-
 const savedMovieList = document.querySelector(".saved-movie-list");
-
 const savedBtn = document.querySelector(".open-saved-btn");
 
 let movieTemplate = document.querySelector(".movie-template").content;
@@ -47,7 +40,6 @@ const convertMinsToHrsMins = (mins) => {
 // ! Main info
 function movieRender(movie, titleRegex = "") {
   movieList.innerHTML = "";
-
   let movieFragment = document.createDocumentFragment();
 
   for (const kino of movie) {
@@ -98,7 +90,6 @@ let bookmarkArr = JSON.parse(window.localStorage.getItem("bookmark")) || [];
 movieList.addEventListener("click", (evt) => {
   if (evt.target.matches(".movie-save-btn")) {
     let itemBookmarkID = evt.target.dataset.bookmarkBtnId;
-
     let itemBook = movieHundred.find((item) => item.imdb_id == itemBookmarkID);
 
     if (!bookmarkArr.includes(itemBook)) {
@@ -198,40 +189,6 @@ savedMovieList.addEventListener("click", (evt) => {
   }
 });
 
-// ! Modal part
-function showModal(imdbID) {
-  let kino = movieHundred.find(function (item) {
-    return item.imdb_id == imdbID;
-  });
-  modalTitle.textContent = kino.Title;
-  modalIframe.src = `https://www.youtube-nocookie.com/embed/${kino.ytid}`;
-  modalRating.textContent = kino.imdb_rating;
-  modalCalendar.textContent = kino.movie_year;
-  modalDuration.textContent = convertMinsToHrsMins(kino.runtime);
-  modalGenres.textContent = kino.Categories.split("|").join(", ");
-  modalSummary.textContent = kino.summary;
-  modalLinkImdb.href = `https://www.imdb.com/title/${kino.imdb_id}`;
-}
-
-// ! Open Modal
-movieList.addEventListener("click", function (evt) {
-  if (evt.target.matches(".js-card-modal-btn")) {
-    mainModal.classList.add("main-modal--on");
-    siteBody.classList.add("site-body--on");
-    showModal(evt.target.dataset.btnModalId);
-    movieBtn.classList.add("d-none");
-  }
-});
-
-// ! Close Modal
-modalCloseBtn.addEventListener("click", () => {
-  siteBody.classList.remove("site-body--on");
-  mainModal.classList.remove("main-modal--on");
-  modalIframe.src = ``;
-});
-
-movieRender(movieHundred);
-
 // ! Search movie
 function onSearchMovieSubmit(evt) {
   evt.preventDefault();
@@ -248,7 +205,6 @@ function onSearchMovieSubmit(evt) {
     notFoundFilmsList.classList.remove("d-none");
     movieList.classList.add("d-none");
   }
-  // searchMovieInput.value = "";
 }
 
 searchMovieForm.addEventListener("submit", onSearchMovieSubmit);
@@ -277,7 +233,6 @@ yearSortBtn.addEventListener("click", () => {
 });
 
 // ! Filter by Category name
-
 const genres = [];
 function sortMovieCategory(categorySorted) {
   movies.forEach((film) => {
@@ -328,3 +283,37 @@ function sortMoviesList(sortedArray, sortType) {
     sortedArray.sort((a, b) => b.movie_year - a.movie_year);
   }
 }
+
+// ! Modal part
+function showModal(imdbID) {
+  let kino = movieHundred.find(function (item) {
+    return item.imdb_id == imdbID;
+  });
+  modalTitle.textContent = kino.Title;
+  modalIframe.src = `https://www.youtube-nocookie.com/embed/${kino.ytid}`;
+  modalRating.textContent = kino.imdb_rating;
+  modalCalendar.textContent = kino.movie_year;
+  modalDuration.textContent = convertMinsToHrsMins(kino.runtime);
+  modalGenres.textContent = kino.Categories.split("|").join(", ");
+  modalSummary.textContent = kino.summary;
+  modalLinkImdb.href = `https://www.imdb.com/title/${kino.imdb_id}`;
+}
+
+// ! Open Modal
+movieList.addEventListener("click", function (evt) {
+  if (evt.target.matches(".js-card-modal-btn")) {
+    mainModal.classList.add("main-modal--on");
+    siteBody.classList.add("site-body--on");
+    showModal(evt.target.dataset.btnModalId);
+    movieBtn.classList.add("d-none");
+  }
+});
+
+// ! Close Modal
+modalCloseBtn.addEventListener("click", () => {
+  siteBody.classList.remove("site-body--on");
+  mainModal.classList.remove("main-modal--on");
+  modalIframe.src = ``;
+});
+
+movieRender(movieHundred);
