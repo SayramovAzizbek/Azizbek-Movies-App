@@ -16,8 +16,8 @@ const savedBtn = document.querySelector(".open-saved-btn");
 let movieTemplate = document.querySelector(".movie-template").content;
 
 const siteBody = document.querySelector(".site-body");
-const mainModalBox = document.querySelector(".main-modal-box");
 const mainModal = document.querySelector(".main-modal");
+const mainModalBox = document.querySelector(".main-modal-box");
 const modalTitle = document.querySelector(".js-modal-title");
 const modalIframe = document.querySelector(".modal-iframe");
 const modalRating = document.querySelector(".movie-modal-rating");
@@ -206,7 +206,6 @@ function onSearchMovieSubmit(evt) {
     movieList.classList.add("d-none");
   }
 }
-
 searchMovieForm.addEventListener("submit", onSearchMovieSubmit);
 
 // ! If move not found, show this modal
@@ -234,23 +233,29 @@ yearSortBtn.addEventListener("click", () => {
 
 // ! Filter by Category name
 const genres = [];
-function sortMovieCategory(categorySorted) {
+let setGenres;
+function sortMovieCategory() {
   movies.forEach((film) => {
     const genresMovie = film.Categories.split("|");
 
     genresMovie.forEach((category) => {
-      if (!genres.includes(category)) {
-        genres.push(category);
-      }
+      genres.push(category);
     });
+
+    // genresMovie.forEach((category) => {
+    //   if (!genres.includes(category)) {
+    //     genres.push(category);
+    //   }
+    // });
   });
   genres.sort();
+  setGenres = new Set(genres);
 }
 sortMovieCategory();
 
 // ! Select sorting by Categories
 const newSelectFragment = document.createDocumentFragment();
-genres.forEach((option) => {
+setGenres.forEach((option) => {
   const newMoviesOption = document.createElement("option");
   newMoviesOption.textContent = option;
   newMoviesOption.value = option;
@@ -317,3 +322,6 @@ modalCloseBtn.addEventListener("click", () => {
 });
 
 movieRender(movieHundred);
+
+// ! AOS Init
+AOS.init();
